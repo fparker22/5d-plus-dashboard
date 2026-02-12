@@ -1,0 +1,32 @@
+[
+    {
+        "id": "t1",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "email": "jane.doe@scmv.edu",
+        "subject": "Mathematics",
+        "grade": "8",
+        "school": "SCMV Middle",
+        "photoUrl": "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg"
+    },
+    {
+        "id": "t2",
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@scmv.edu",
+        "subject": "English Language Arts",
+        "grade": "10",
+        "school": "SCMV High",
+        "photoUrl": "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+        "id": "t3",
+        "firstName": "Maria",
+        "lastName": "Garcia",
+        "email": "maria.garcia@scmv.edu",
+        "subject": "Science",
+        "grade": "9",
+        "school": "SCMV High",
+        "photoUrl": "https://randomuser.me/api/portraits/women/44.jpg"
+    }
+]

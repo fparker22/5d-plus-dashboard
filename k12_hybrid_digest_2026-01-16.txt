@@ -1,0 +1,44 @@
+# K-12 Hybrid/Virtual Education - Daily Digest
+## 2026-01-16
+
+### TOP SIGNALS
+
+**AI tools that support ELA skill-building — what’s working?** (Score: 8/10) - r/edtech
+*[2026-01-16] | [0] upvotes | [0] comments*
+
+This discussion seeks practical AI tools for English Language Arts (ELA) that focus on skill-building (reading comprehension, vocabulary, outlining) rather than simply generating essays. It highlights the need for "scaffolding" tools that nudge students to revise work personally. This is crucial for schools integrating AI while maintaining academic integrity.
+Link: https://www.reddit.com/r/edtech/comments/1qe4bw2/ai_tools_that_support_ela_skillbuilding_whats/
+
+**Finding a way to actually understand tricky topics** (Score: 7/10) - r/OnlineEducation
+*[2026-01-15] | [0] upvotes | [0] comments*
+
+A student highlights "Skysmart," an online platform with interactive lessons that allow real-time questions and self-paced tracking. The post suggests that interactive, responsive platforms are significantly more effective for engagement than passive video watching or textbook reading, validating the shift toward dynamic LMS tools in hybrid settings.
+Link: https://www.reddit.com/r/OnlineEducation/comments/1qdhsvn/finding_a_way_to_actually_understand_tricky_topics/
+
+### NOTABLE DISCUSSIONS
+
+**High School Algebra is actually just 8th grade skills** (Score: 6/10) - r/Teachers
+*[2026-01-15]*
+Teachers discuss the retention gap where 9th-grade students lack 8th-grade fundamentals (like solving systems of equations), forcing high school teachers to reteach basics. This signals a potential curriculum misalignment or "pandemic learning loss" effect that hybrid/virtual recovery programs need to address specifically.
+Link: https://www.reddit.com/r/Teachers/comments/1qdyxf7/high_school_algebra_is_actually_just_8th_grade/
+
+**Cellphone bans are necessary, but classroom teachers should NOT be in charge of it** (Score: 6/10) - r/Teachers
+*[2026-01-15]*
+A debate on the logistics of implementing policy. While bans improve engagement, requiring teachers to manage storage systems (like hanging calculators) creates liability and distraction issues. Administrators need to centralize enforcement rather than offloading "policing" duties to instructors.
+Link: https://www.reddit.com/r/Teachers/comments/1qdiqcx/cellphone_bans_are_necessary_but_classroom/
+
+### EMERGING THEMES
+
+- **AI & Tech Integration**: Continued focus on finding the "right" level of AI assistance—tools that scaffold rather than solve—and new interactive platforms replacing static content.
+- **Learning Gaps**: Evidence of systemic retention issues in math (Algebra), requiring remedial strategies affecting both in-person and virtual curricula.
+- **Student Mental Health**: Multiple posts (r/HomeschoolRecovery) highlight the long-term impact of isolation and lack of structure, emphasizing the need for social-emotional learning (SEL) components in virtual and homeschool programs.
+
+### KEY TAKEAWAYS
+1. **Focus on Process, Not Product**: For ELA and creative work, adopt AI tools that provide feedback on the *process* (outlining, revising) rather than the final output to maintain rigorous standards.
+2. **Centralize Policy Enforcement**: Hybrid schools implementing device bans or strict engagement rules must handle enforcement administratively to protect teacher-student relationships and liability.
+3. **Interactive > Static**: Asynchronous content must move beyond videos to interactive platforms (like Skysmart mentioned) where students can actively query and trace their progress.
+
+---
+Total Posts Analyzed: 80
+Signal Posts: 2
+Noise Posts: 78
