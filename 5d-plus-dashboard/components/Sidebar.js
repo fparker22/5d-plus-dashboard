@@ -74,10 +74,12 @@ export default function Sidebar() {
             </nav>
 
             <div style={{ paddingTop: "1rem", borderTop: "1px solid var(--border-glass)" }}>
-                <button className="glass-button" style={{ width: "100%", display: "flex", justifyContent: "center", gap: "0.5rem", alignItems: "center" }}>
-                    <PlusCircle size={18} />
-                    New Eval
-                </button>
+                <Link href="/evaluations/new" style={{ width: "100%" }}>
+                    <button className="glass-button" style={{ width: "100%", display: "flex", justifyContent: "center", gap: "0.5rem", alignItems: "center" }}>
+                        <PlusCircle size={18} />
+                        New Eval
+                    </button>
+                </Link>
             </div>
         </aside>
     );
