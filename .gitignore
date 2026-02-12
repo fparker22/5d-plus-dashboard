@@ -2,6 +2,15 @@
 credentials.json
 token.json
 .tmp/
+.DS_Store
+.netlify/
 
-# Local Netlify folder
-.netlify
+# Node
+**/node_modules
+**/.next
+**/out
+**/build
+**/.scaffolding
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
