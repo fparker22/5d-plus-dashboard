@@ -88,28 +88,52 @@ Read the `spoken` text of every clip. Fix `review` items by hand (search the tra
 actually said) or drop them. Also skim the transcript for unscripted moments: the best line of the
 morning is often one that was never in the manuscript.
 
-### 5. Cut
-```
-python3 klm_cut_clips.py sermon.mp4 clips.json --transcript transcript.json --outdir clips \
-  --zoom 1.5 --focus-x 0.52 --focus-y 0.75
-```
-Those framing values fit the current MLK Center livestream camera. Check one frame per clip; if he has
-walked out of frame, re-cut that clip with `--mode blur`.
+### 5. Choose the clips (Pastor Fred picks the lead)
+The lead clip is **the heart of the message**, not the funniest opener. Offer him the top three
+candidates with their spoken text and a one-line reason each, and let him choose. Do not default to
+the introduction or a laugh line.
 
-Clip rules:
-- **30-60 seconds** is the default. Allow one **90 s - 3 min** story clip per week as a test. Nothing over 3 minutes.
-- The **hook is the first 1-3 seconds**: start on the line, not on the breath before it.
-- Burned-in captions always. Keep text clear of the bottom ~300 px and the right-hand button column.
-- No music bed, no decorative effects. No other app's watermark.
+Every clip is **one continuous 20-45 second moment**. Do not stitch separate parts of the sermon
+together: jump cuts read as choppy. If a thought needs more than 45 seconds, find the tighter
+version of it or pick another moment. (One longer story clip a week is still allowed as a test.)
 
-### 6. Score and polish with Higgsfield
-- Upload each finished clip (`media_upload` before the command, `curl PUT` inside the same sandbox
-  command, then `media_confirm`).
-- Run `virality_predictor` on the top 3-4 candidates and use the hook/retention notes to choose the
-  lead clip and to re-trim weak openings.
-- The 720p wide shot is soft once punched in. If a lead clip deserves it, upscale that one clip.
-- Optional extras only when asked for: thumbnail (`thumbnail-generation` workflow), a motion title
-  card, a dubbed version. The COMMIT series look is type-only; do not generate tower art or stock imagery.
+### 6. Produce each clip (the KLM look)
+This is the approved pipeline from the Nov 22, 2026 tests. Per 35-second clip it costs about
+10 Higgsfield credits (Topaz upscale 9, background cut-out 1); the music bed is ~7 credits once
+and is reused.
+
+1. **Cut one continuous crop**, no captions, at half size for the upscaler:
+   `ffmpeg -ss START -i sermon.mp4 -t LEN -vf "crop=270:480:530:240,scale=540:960:flags=lanczos" -r 30 -c:v libx264 -preset slow -crf 14 -c:a aac raw.mp4`
+   (`crop=270:480:530:240` frames the preacher on the current MLK Center livestream; check a frame.)
+2. **Upscale** with `upscale_video` (`provider: topaz`, `resolution: 1080p`, `aspect_ratio: 9:16`).
+   The Subsplash file is only ~330 kbps at 720p, which is why un-upscaled clips look soft. YouTube
+   blocks downloads from the sandbox, so Subsplash + Topaz is the best available source.
+3. **Background cut-out** with `remove_background` on the same raw clip (`media_type: video`).
+4. **Higgsfield reel-effects** (load the `reel-effects` workflow; scripts are preinstalled):
+   `prepare` with the upscaled clip and `--matte`, `transcribe`, then **fix the transcript**
+   (merge split hyphen words such as "e -pens", check KJV names) before building.
+   - Layer 1 `text-behind`, `style: bold`, `color: #F5B81F`: 3-5 single punch words taken from
+     what he says (BLOOD, OATH, DEATH), cued on the spoken word. Render with `--no-finish`.
+     Keep the first 3.3 seconds free for the title hook.
+   - Layer 2 `captions` (`stack` on layer 1): `look: spotlight`, `color: #F5B81F`, `style: bold`,
+     `y: 1330`, `max_words: 3`.
+   - Check `--stills` (times need an `s` suffix, e.g. `5.0s,11.4s`) before every full render.
+   - Do not use `katana-cool-dude` here: its white serif words vanish against the white banner.
+5. **Finish** with `execution/klm_finish_clip.sh in.mp4 out.mp4 "MESSAGE TITLE" "SERIES  |  WEEK N"`:
+   gold crest + "Kingdom Life Ministries / You'll Leave Better" bar, a 3-second message-title hook,
+   a gold progress bar, and the music bed.
+6. **Music**: warm gospel-soul instrumental from `elevenlabs_music_v2_5` (`force_instrumental`),
+   matched to the tone of the moment, about 12 dB under his voice. It must be clearly audible on
+   a phone speaker without competing with him.
+7. **Brand assets** live in the sandbox at `/home/user/klm/brand`. The logo comes from the cover
+   image of the Notion "Kingdom Life Ministries" page (the signed URL lasts 5 minutes: fetch the
+   page, then `curl` it in the sandbox straight away) and the crest is the left part of it.
+8. Upload (`media_upload` first, `curl PUT` in the producing command, `media_confirm`) and run
+   `virality_predictor` on the candidates; use its hook and retention notes to re-trim.
+
+Other Higgsfield looks worth testing on future clips: `katana-bold` (punch words, needs the matte),
+`freeze-frame` (name/key phrase tag), `grade-wipe`. One look per clip. The generative "Viral"
+presets redraw footage with AI and are not for clips of a real sermon unless Pastor Fred asks.
 
 ### 7. Write the posts
 One caption per clip, in Pastor Fred's voice, drawn from the marketing package where it exists.
