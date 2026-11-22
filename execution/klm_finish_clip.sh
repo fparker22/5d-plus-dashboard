@@ -28,7 +28,7 @@ ffmpeg -y -loglevel error -i "$IN" -i /home/user/klm/brand/klm_crest.png -stream
  drawbox=x=0:y=1906:w=iw:h=14:color=black@0.5:t=fill[v0];
  [v0][crest]overlay=44:48[v1];
  [v1][3:v]overlay=x='-1080+1080*t/$D':y=1906:shortest=1[v];
- [0:a]asplit=2[voice][sc];
+ [0:a]loudnorm=I=-14:TP=-1.5:LRA=11,asplit=2[voice][sc];
  [2:a]atrim=0:$D,volume=0.75,afade=t=in:d=0.6,afade=t=out:st=$FADE:d=1.8[bed];
  [bed][sc]sidechaincompress=threshold=0.08:ratio=2:attack=20:release=400[duck];
  [voice][duck]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]" \
