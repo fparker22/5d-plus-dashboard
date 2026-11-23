@@ -42,7 +42,7 @@ def main():
     subprocess.run(cmd, check=True)
 
     model = WhisperModel(a.model, device="cpu", compute_type="int8")
-    segments, info = model.transcribe(wav, word_timestamps=True, vad_filter=True, language="en")
+    segments, info = model.transcribe(wav, word_timestamps=True, vad_filter=False, condition_on_previous_text=False, language="en")
     words = []
     with open(a.out + ".log", "a") as log:
         for seg in segments:

@@ -197,6 +197,9 @@ A phone on a tripod at the front, recording vertically, gives far sharper sermon
 - **Network:** the Claude cloud container is blocked from subsplash.com and upload.higgsfield.ai
   (proxy 403). Do the media work in the Higgsfield sandbox, which has open internet.
 - **Sandbox limits:** foreground commands 120 s, background 15 min, one CPU on standard size.
+- **Do not use Whisper's VAD filter.** On the Nov 22, 2026 recording it threw away almost the whole sermon (1 word from 16 minutes). `klm_transcribe.py` now runs with it off.
+- **Do not run 4 transcriptions in parallel or rely on the XL sandbox for long jobs**: the Nov 22 run died silently. Run two chunks of ~15 minutes per background command on the standard sandbox and poll with calls under 60 seconds.
+- **The camera framing changes week to week** (Nov 22 was much wider than Oct 18). Always grab a frame and set the crop for that day.
 - **faster-whisper `small.en`** handled his cadence well in testing; KJV proper nouns
   (Parthians, Shinar, Mesopotamia) should be spot-checked in captions.
 - **Research caveat (Nov 2026):** clip-length studies conflict (Socialinsider: 30-60 s best reach;
