@@ -25,6 +25,7 @@ D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$IN")
 F=/usr/share/fonts/truetype/higgsfield/Montserrat-ExtraBold.ttf
 G=0xF5B81F
 FADE=$(python3 -c "print(max(0,$D-2.0))")
+FADEV=$(python3 -c "print(max(0,$D-0.3))")
 ffmpeg -y -loglevel error -i "$IN" -i /home/user/klm/brand/klm_crest.png -stream_loop -1 -i "$BEDFILE" \
  -f lavfi -i "color=c=$G:s=1080x14:r=30" -filter_complex "
  [1:v]scale=-2:104[crest];
@@ -44,7 +45,7 @@ ffmpeg -y -loglevel error -i "$IN" -i /home/user/klm/brand/klm_crest.png -stream
  drawtext=fontfile=$F:text='$INFO2':fontcolor=$G:fontsize=44:x=(w-text_w)/2:y=1582:enable='gte(t,${S1})',
  drawbox=x=0:y=1906:w=iw:h=14:color=black@0.5:t=fill[v0];
  [v0][crest]overlay=44:48[v1];
- [v1][3:v]overlay=x='-1080+1080*t/$D':y=1906:shortest=1[v];
+ [v1][3:v]overlay=x='-1080+1080*t/$D':y=1906:shortest=1,fade=t=out:st=$FADEV:d=0.3[v];
  [0:a]loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000,asplit=2[voice][sc];
  [2:a]atrim=0:$D,volume=${BED:-0.55},afade=t=in:d=0.5,afade=t=out:st=$FADE:d=2.0[bed];
  [bed][sc]sidechaincompress=threshold=0.08:ratio=2.5:attack=20:release=350[duck];

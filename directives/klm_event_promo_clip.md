@@ -64,17 +64,24 @@ and flyers each time.
    popped in as a card over half the screen with a hard cut back (Nov 25, 2026).
 9. **Captions** (`stack` on the punch-word layer): `look: spotlight`, `color: #F5B81F`,
    `style: bold`, `y: 1330`, `max_words: 3`.
-10. **Finish** with `klm_promo_finish.sh`:
+10. **End it cleanly.** Never let the clip stop at the 60 s limit mid-word. Find the end of his
+    last complete sentence (word end from the transcript, then check 50 ms audio levels for the
+    silent gap before the next word), trim the caption render there, and hold the last frame for
+    about half a second:
+    `ffmpeg -t END -i captions.mp4 -vf "tpad=stop_mode=clone:stop_duration=0.45" -af "afade=t=out:st=END-0.12:d=0.12,apad=pad_dur=0.45" ... cap_trim.mp4`
+    (`-t` must come before `-i`, or the hold is cut off). The finish pass then fades picture and
+    music out. Pastor Fred flagged the first version for cutting off abruptly at exactly 1:00.
+11. **Finish** with `klm_promo_finish.sh` (on the trimmed file):
    - 0-3 s: gold title hook (event name + one-line promise).
    - ~3.5-9 s: lower third, "PASTOR FRED PARKER / KINGDOM LIFE MINISTRIES".
    - From the first cutaway to the end: info strip with day, time, "FREE", address and phone.
    - Logo bar on top, gold progress bar on the bottom.
    - Music: upbeat instrumental that fits the event (R&B for Feed Jackson), about 12-14 dB under
      his voice, ducked while he speaks.
-11. **Check** four or more frames (title, lower third, a cutaway, the ending) and the audio levels,
-    upload (`media_upload` first, `curl PUT` in the producing command, `media_confirm`), and give him
+12. **Check** four or more frames (title, lower third, a cutaway, the ending) and the audio levels,
+    Check the last second too (last frames and audio levels). Upload (`media_upload` first, `curl PUT` in the producing command, `media_confirm`), and give him
     the link with: what is in it, the date it must post, credits spent.
-12. **After approval**, schedule in Metricool to Facebook Reel, Instagram Reel and YouTube Short
+13. **After approval**, schedule in Metricool to Facebook Reel, Instagram Reel and YouTube Short
     with a caption that repeats the event facts and the phone number.
 
 ## Edge cases and learnings
