@@ -25,8 +25,8 @@ ffmpeg -y -loglevel error -i "$IN" -loop 1 -framerate 30 -t $L1 -i "${FLYER1:-fl
  [b1]scale=2160:2160,zoompan=z='if(lt(on,14),1.10-0.10*on/14,1+0.035*(on-14)/($N1-14))':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1080:fps=30[fg1];
  [bg1][fg1]overlay=0:215:shortest=1,format=rgba,fade=t=in:st=0:d=$X:alpha=1,fade=t=out:st=$O1:d=$X:alpha=1,setpts=PTS+$S1/TB[fs1];
  [a2]scale=-2:1920,crop=1080:1920,boxblur=28:3,eq=brightness=-0.06:saturation=1.15[bg2];
- [b2]scale=1800:2250,zoompan=z='if(lt(on,14),1.10-0.10*on/14,1+0.035*(on-14)/($N2-14))':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=900x1125:fps=30,pad=912:1137:6:6:color=0xF5B81F[fg2];
- [bg2][fg2]overlay=84:200:shortest=1,format=rgba,fade=t=in:st=0:d=$X:alpha=1,fade=t=out:st=$O2:d=$X:alpha=1,setpts=PTS+$S2/TB[fs2];
+ [b2]scale=1704:2130,zoompan=z='if(lt(on,14),1.10-0.10*on/14,1+0.035*(on-14)/($N2-14))':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=852x1065:fps=30,pad=864:1077:6:6:color=0xF5B81F[fg2];
+ [bg2][fg2]overlay=108:210:shortest=1,format=rgba,fade=t=in:st=0:d=$X:alpha=1,fade=t=out:st=$O2:d=$X:alpha=1,setpts=PTS+$S2/TB[fs2];
  [0:v][fs1]overlay=0:0:eof_action=pass:enable='between(t,$S1,$E1+$X)'[m1];
  [m1][fs2]overlay=0:0:eof_action=pass:enable='between(t,$S2,$E2+$X)'[v]" \
  -map "[v]" -map 0:a -c:v libx264 -preset veryfast -crf 16 -pix_fmt yuv420p -c:a copy "$OUT"
