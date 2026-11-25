@@ -32,8 +32,9 @@ All media work runs in the Higgsfield sandbox (`sandbox_exec`), working folder `
 (or a new folder per event). The sandbox is wiped after about 24 idle hours, so re-fetch the logo
 and flyers each time.
 
-- `execution/klm_promo_finish.sh` - the graphics and music pass (title, lower third, flyer
-  cutaways, info strip, logo, progress bar, music mix).
+- `execution/klm_promo_broll.sh` - full-screen flyer cutaways (runs before captions).
+- `execution/klm_promo_finish.sh` - the graphics and music pass (title, lower third, info strip,
+  logo, progress bar, music mix).
 - Higgsfield `reel-effects` workflow - `text-behind` punch words and `captions`.
 - Higgsfield `remove_background` (video) - the cut-out that lets words sit behind him.
 - Higgsfield `generate_audio`, model `elevenlabs_music_v2_5`, `force_instrumental: true` - music.
@@ -55,21 +56,25 @@ and flyers each time.
 7. **Punch words** (`text-behind`, `style: bold`, `color: #F5B81F`, `font_px` about 210): one word
    per key beat, exactly as he says it, timed with `start` seconds. Keep them clear of the first
    3 seconds (title hook) and of the flyer cutaways. Check `--stills` (times need an `s` suffix).
-8. **Captions** (`stack` on the punch-word layer): `look: spotlight`, `color: #F5B81F`,
+8. **Flyer cutaways** with `execution/klm_promo_broll.sh`, run on the punch-word render *before*
+   captions are stacked, so captions stay on top. Each flyer takes over the full screen (blurred
+   copy of the flyer as backdrop, flyer large on top), dissolves in with a zoom-settle and
+   dissolves back to him. Put the first where he says the date, time and address, the second
+   where he says how to RSVP or call. Pastor Fred rejected the earlier version where the flyer
+   popped in as a card over half the screen with a hard cut back (Nov 25, 2026).
+9. **Captions** (`stack` on the punch-word layer): `look: spotlight`, `color: #F5B81F`,
    `style: bold`, `y: 1330`, `max_words: 3`.
-9. **Finish** with `klm_promo_finish.sh` (set the cutaway times first):
+10. **Finish** with `klm_promo_finish.sh`:
    - 0-3 s: gold title hook (event name + one-line promise).
    - ~3.5-9 s: lower third, "PASTOR FRED PARKER / KINGDOM LIFE MINISTRIES".
-   - Flyer cutaways as bordered cards that slide in while he keeps talking: put the first where
-     he says the date, time and address, the second where he says how to RSVP or call.
    - From the first cutaway to the end: info strip with day, time, "FREE", address and phone.
    - Logo bar on top, gold progress bar on the bottom.
    - Music: upbeat instrumental that fits the event (R&B for Feed Jackson), about 12-14 dB under
      his voice, ducked while he speaks.
-10. **Check** four or more frames (title, lower third, a cutaway, the ending) and the audio levels,
+11. **Check** four or more frames (title, lower third, a cutaway, the ending) and the audio levels,
     upload (`media_upload` first, `curl PUT` in the producing command, `media_confirm`), and give him
     the link with: what is in it, the date it must post, credits spent.
-11. **After approval**, schedule in Metricool to Facebook Reel, Instagram Reel and YouTube Short
+12. **After approval**, schedule in Metricool to Facebook Reel, Instagram Reel and YouTube Short
     with a caption that repeats the event facts and the phone number.
 
 ## Edge cases and learnings
