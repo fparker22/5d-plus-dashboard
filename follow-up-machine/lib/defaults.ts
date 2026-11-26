@@ -1,0 +1,282 @@
+import type { Sequence, Template, TenantSettings } from "./types";
+
+// The starter kit every new client gets: message templates and the seven
+// sequences. Clone, then tune the wording for the business during onboarding.
+
+type TemplateSeed = Omit<Template, "id" | "tenantId">;
+type SequenceSeed = Omit<Sequence, "id" | "tenantId">;
+
+const MIN = 1;
+const HOUR = 60;
+const DAY = 24 * 60;
+
+export const DEFAULT_SETTINGS: TenantSettings = {
+  timezone: "America/Detroit",
+  quietStartHour: 8,
+  quietEndHour: 20,
+  autopilot: true,
+  bookingUrl: "",
+  reviewUrl: "",
+  website: "",
+  fromName: "",
+  fromEmail: "",
+  phone: "",
+  forwardPhone: "",
+  ownerName: "",
+  ownerEmail: "",
+  voiceAgentId: "",
+  metricoolBlogId: "",
+  brandColor: "#0F3D3E",
+  voiceTone: "Warm, plain spoken and brief.",
+};
+
+export const DEFAULT_TEMPLATES: TemplateSeed[] = [
+  {
+    key: "ack_sms",
+    name: "New lead — instant text",
+    channel: "sms",
+    subject: "",
+    body: "Hi {{first_name}}, this is {{business}}. Thanks for reaching out{{interest_clause}}. You can grab a time here: {{booking_url}} — or just reply to this text with any questions. Reply STOP to opt out.",
+  },
+  {
+    key: "ack_email",
+    name: "New lead — instant email",
+    channel: "email",
+    subject: "We got your request, {{first_name}}",
+    body: "Hi {{first_name}},\n\nThank you for contacting {{business}}. We received your request{{interest_clause}} and someone will be in touch shortly.\n\nIf you'd like to skip the back-and-forth, pick a time that works for you:\n{{booking_url}}\n\nQuestions? Reply to this email or call {{phone}}.\n\n{{owner_name}}\n{{business}}",
+  },
+  {
+    key: "followup_1_sms",
+    name: "Follow-up 1 — next day text",
+    channel: "sms",
+    subject: "",
+    body: "Hi {{first_name}}, it's {{business}} checking in. Still need help{{interest_clause}}? Here's the link to book: {{booking_url}}",
+  },
+  {
+    key: "followup_2_email",
+    name: "Follow-up 2 — day 3 email",
+    channel: "email",
+    subject: "Still happy to help, {{first_name}}",
+    body: "Hi {{first_name}},\n\nI wanted to make sure your request didn't slip through the cracks. If you're still looking for help{{interest_clause}}, we have openings this week:\n{{booking_url}}\n\nIf now isn't the right time, no problem at all — just reply and let me know.\n\n{{owner_name}}\n{{business}}",
+  },
+  {
+    key: "followup_3_sms",
+    name: "Follow-up 3 — day 7 text",
+    channel: "sms",
+    subject: "",
+    body: "{{first_name}}, last check-in from {{business}} for now. Want me to hold a spot for you this week? Reply YES and we'll set it up.",
+  },
+  {
+    key: "missed_call_sms",
+    name: "Missed call — text back",
+    channel: "sms",
+    subject: "",
+    body: "Hi, this is {{business}}. Sorry we missed your call. How can we help? You can reply here or book a time: {{booking_url}} Reply STOP to opt out.",
+  },
+  {
+    key: "missed_call_2_sms",
+    name: "Missed call — next day",
+    channel: "sms",
+    subject: "",
+    body: "Hi, it's {{business}} again. We didn't want to leave you hanging after your call yesterday. Is there something we can help with?",
+  },
+  {
+    key: "appt_confirm_sms",
+    name: "Appointment — confirmation text",
+    channel: "sms",
+    subject: "",
+    body: "You're booked, {{first_name}}. {{business}} will see you {{appointment_time}}. Reply C to confirm or R to reschedule.",
+  },
+  {
+    key: "appt_confirm_email",
+    name: "Appointment — confirmation email",
+    channel: "email",
+    subject: "You're booked for {{appointment_time}}",
+    body: "Hi {{first_name}},\n\nYour appointment with {{business}} is set for {{appointment_time}}.\n\nNeed to change it? Use this link or call {{phone}}:\n{{booking_url}}\n\nSee you then,\n{{owner_name}}",
+  },
+  {
+    key: "appt_reminder_day_sms",
+    name: "Appointment — day-before reminder",
+    channel: "sms",
+    subject: "",
+    body: "Reminder from {{business}}: we'll see you {{appointment_time}}. Reply C to confirm or R to reschedule.",
+  },
+  {
+    key: "appt_reminder_hour_sms",
+    name: "Appointment — same-day reminder",
+    channel: "sms",
+    subject: "",
+    body: "{{first_name}}, see you soon. Your appointment with {{business}} is {{appointment_time}}. Call {{phone}} if anything comes up.",
+  },
+  {
+    key: "no_show_sms",
+    name: "No-show — reschedule text",
+    channel: "sms",
+    subject: "",
+    body: "Hi {{first_name}}, we missed you today at {{business}}. No worries — want to pick a new time? {{booking_url}}",
+  },
+  {
+    key: "no_show_email",
+    name: "No-show — reschedule email",
+    channel: "email",
+    subject: "Let's find a new time",
+    body: "Hi {{first_name}},\n\nSorry we didn't connect for your appointment. Things come up. Whenever you're ready, you can pick a new time here:\n{{booking_url}}\n\n{{owner_name}}\n{{business}}",
+  },
+  {
+    key: "review_sms",
+    name: "Review request — text",
+    channel: "sms",
+    subject: "",
+    body: "Thanks for choosing {{business}}, {{first_name}}. Would you take 30 seconds to share how it went? It means a lot to a small business: {{review_url}}",
+  },
+  {
+    key: "review_email",
+    name: "Review request — email",
+    channel: "email",
+    subject: "How did we do, {{first_name}}?",
+    body: "Hi {{first_name}},\n\nThank you for trusting {{business}}. If you were happy with the experience, a short review helps other people find us:\n{{review_url}}\n\nIf anything fell short, reply to this email and I'll make it right.\n\n{{owner_name}}",
+  },
+  {
+    key: "nurture_1_email",
+    name: "Nurture — two-week check-in",
+    channel: "email",
+    subject: "Checking in from {{business}}",
+    body: "Hi {{first_name}},\n\nNo pressure at all — I just wanted you to know we're here when the timing is right{{interest_clause}}.\n\nIf anything has changed, you can book any time:\n{{booking_url}}\n\n{{owner_name}}",
+  },
+  {
+    key: "nurture_2_sms",
+    name: "Nurture — one-month text",
+    channel: "sms",
+    subject: "",
+    body: "Hi {{first_name}}, {{business}} here. Still thinking it over? Happy to answer any questions — just reply.",
+  },
+  {
+    key: "nurture_3_email",
+    name: "Nurture — two-month email",
+    channel: "email",
+    subject: "A quick note from {{business}}",
+    body: "Hi {{first_name}},\n\nIt's been a little while, so I wanted to check in. We've been busy helping neighbors with {{services}}, and we'd be glad to help you too.\n\nBook whenever you're ready:\n{{booking_url}}\n\n{{owner_name}}",
+  },
+  {
+    key: "nurture_4_sms",
+    name: "Nurture — quarterly text",
+    channel: "sms",
+    subject: "",
+    body: "{{first_name}}, it's {{business}}. We have a few openings coming up — want one? {{booking_url}}",
+  },
+  {
+    key: "reactivation_sms",
+    name: "Win-back — text",
+    channel: "sms",
+    subject: "",
+    body: "Hi {{first_name}}, it's been a while since we saw you at {{business}}. We'd love to have you back — book here: {{booking_url}}",
+  },
+  {
+    key: "reactivation_email",
+    name: "Win-back — email",
+    channel: "email",
+    subject: "We'd love to see you again",
+    body: "Hi {{first_name}},\n\nIt's been a while, and we wanted to say thank you for being a customer of {{business}}.\n\nIf it's time for another visit, here's the quickest way to get on the calendar:\n{{booking_url}}\n\n{{owner_name}}",
+  },
+];
+
+export const DEFAULT_SEQUENCES: SequenceSeed[] = [
+  {
+    key: "new_lead",
+    name: "Speed to lead",
+    description: "Text and email within a minute, then three follow-ups over a week.",
+    active: true,
+    stopOnReply: true,
+    loopFromStep: null,
+    thenStart: "nurture",
+    steps: [
+      { delayMinutes: 0, channel: "sms", templateKey: "ack_sms" },
+      { delayMinutes: 0, channel: "email", templateKey: "ack_email" },
+      { delayMinutes: 1 * DAY, channel: "sms", templateKey: "followup_1_sms" },
+      { delayMinutes: 2 * DAY, channel: "email", templateKey: "followup_2_email" },
+      { delayMinutes: 4 * DAY, channel: "sms", templateKey: "followup_3_sms" },
+    ],
+  },
+  {
+    key: "missed_call",
+    name: "Missed-call text-back",
+    description: "A text goes out before the caller dials a competitor.",
+    active: true,
+    stopOnReply: true,
+    loopFromStep: null,
+    thenStart: null,
+    steps: [
+      { delayMinutes: 1 * MIN, channel: "sms", templateKey: "missed_call_sms" },
+      { delayMinutes: 1 * DAY, channel: "sms", templateKey: "missed_call_2_sms" },
+    ],
+  },
+  {
+    key: "appointment",
+    name: "Appointment reminders",
+    description: "Confirmation right away, a reminder the day before and another two hours ahead.",
+    active: true,
+    stopOnReply: false,
+    loopFromStep: null,
+    thenStart: null,
+    steps: [
+      { delayMinutes: 0, channel: "sms", templateKey: "appt_confirm_sms" },
+      { delayMinutes: 0, channel: "email", templateKey: "appt_confirm_email" },
+      { delayMinutes: -1 * DAY, channel: "sms", templateKey: "appt_reminder_day_sms", anchor: "appointment" },
+      { delayMinutes: -2 * HOUR, channel: "sms", templateKey: "appt_reminder_hour_sms", anchor: "appointment" },
+    ],
+  },
+  {
+    key: "no_show",
+    name: "No-show recovery",
+    description: "A friendly nudge to rebook, by text and then by email.",
+    active: true,
+    stopOnReply: true,
+    loopFromStep: null,
+    thenStart: "nurture",
+    steps: [
+      { delayMinutes: 30 * MIN, channel: "sms", templateKey: "no_show_sms" },
+      { delayMinutes: 2 * DAY, channel: "email", templateKey: "no_show_email" },
+    ],
+  },
+  {
+    key: "review",
+    name: "Review request",
+    description: "Asks for a review two hours after the job, with one reminder.",
+    active: true,
+    stopOnReply: false,
+    loopFromStep: null,
+    thenStart: null,
+    steps: [
+      { delayMinutes: 2 * HOUR, channel: "sms", templateKey: "review_sms" },
+      { delayMinutes: 3 * DAY, channel: "email", templateKey: "review_email" },
+    ],
+  },
+  {
+    key: "nurture",
+    name: "Long-term drip",
+    description: "For everyone who did not buy. Touches at two weeks, one month and two months, then every quarter.",
+    active: true,
+    stopOnReply: true,
+    loopFromStep: 2,
+    thenStart: null,
+    steps: [
+      { delayMinutes: 14 * DAY, channel: "email", templateKey: "nurture_1_email" },
+      { delayMinutes: 16 * DAY, channel: "sms", templateKey: "nurture_2_sms" },
+      { delayMinutes: 30 * DAY, channel: "email", templateKey: "nurture_3_email" },
+      { delayMinutes: 90 * DAY, channel: "sms", templateKey: "nurture_4_sms" },
+    ],
+  },
+  {
+    key: "reactivation",
+    name: "Win-back campaign",
+    description: "Reaches customers who have not heard from the business in 60 days.",
+    active: true,
+    stopOnReply: true,
+    loopFromStep: null,
+    thenStart: null,
+    steps: [
+      { delayMinutes: 0, channel: "sms", templateKey: "reactivation_sms" },
+      { delayMinutes: 5 * DAY, channel: "email", templateKey: "reactivation_email" },
+    ],
+  },
+];

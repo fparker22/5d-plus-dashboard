@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+/* Identity: a front desk that never closes. Spruce green for the desk itself,
+   marigold (the brass bell) only where a person is needed, fog for the room. */
+@theme {
+  --color-spruce-950: #0a2a2b;
+  --color-spruce-900: #0f3d3e;
+  --color-spruce-800: #17504f;
+  --color-spruce-700: #1f5f5b;
+  --color-spruce-200: #c3dcd4;
+  --color-spruce-100: #dcebe6;
+  --color-spruce-50: #edf5f2;
+  --color-fog: #eef2f0;
+  --color-paper: #ffffff;
+  --color-line: #d5deda;
+  --color-ink: #12211f;
+  --color-muted: #586864;
+  --color-bell: #f2a900;
+  --color-bell-deep: #8a5a00;
+  --color-bell-soft: #fff1cc;
+  --color-alert: #b93a2a;
+  --color-alert-soft: #fbe3de;
+  --color-good: #1f7a5c;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Instrument Sans Variable", ui-sans-serif, sans-serif;
+}
+
+html {
+  background: var(--color-fog);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 92;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-spruce-700);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border border-line bg-paper px-3.5 py-2 text-sm font-medium text-ink transition-colors hover:bg-spruce-50 disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border border-spruce-900 bg-spruce-900 px-3.5 py-2 text-sm font-medium text-white transition-colors hover:bg-spruce-800 disabled:opacity-50;
+  }
+  .btn-bell {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border border-bell bg-bell px-3.5 py-2 text-sm font-semibold text-spruce-950 transition-colors hover:bg-[#ffbb1a];
+  }
+  .btn-quiet {
+    @apply inline-flex items-center gap-1.5 rounded px-2 py-1 text-sm font-medium text-spruce-700 hover:bg-spruce-50;
+  }
+  .input {
+    @apply w-full rounded-md border border-line bg-paper px-3 py-2 text-sm text-ink placeholder:text-muted/70;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-ink;
+  }
+  .panel {
+    @apply rounded-lg border border-line bg-paper;
+  }
+  .panel-head {
+    @apply flex items-center justify-between gap-3 border-b border-line px-5 py-3.5;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.arrive > * {
+  animation: arrive 0.5s ease-out both;
+}
+.arrive > *:nth-child(2) { animation-delay: 0.5s; }
+.arrive > *:nth-child(3) { animation-delay: 1s; }
+.arrive > *:nth-child(4) { animation-delay: 1.5s; }
+.arrive > *:nth-child(5) { animation-delay: 2s; }
+.arrive > *:nth-child(6) { animation-delay: 2.5s; }
